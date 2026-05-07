@@ -33,14 +33,72 @@ const gameController = (function() {
         [0,4,8], [6,4,2] //แนวทะแยง    
     ]
 
-    console.log(player1.mark);
+
+    const playRound = () => {
+        board.updateBoard(0, activePlayer.mark);
+        checkWinner();
+        changeTurn();
+
+        board.updateBoard(3, activePlayer.mark);
+        checkWinner();
+        changeTurn();
+
+        board.updateBoard(1, activePlayer.mark);
+        checkWinner();
+        changeTurn();
+
+        board.updateBoard(4, activePlayer.mark);
+        checkWinner();
+        changeTurn();
+
+        board.updateBoard(2, activePlayer.mark);
+        checkWinner();
+        changeTurn();
+        board.updateBoard(5, activePlayer.mark);
+        checkWinner();
+        changeTurn();
+
+        
+    }
+
+    const checkWinner = () => {
+        for (const pattern of winPattern) {
+
+            if (gameIsOver) {
+                break;
+            }
+
+            const currentBoard = board.getBoard();
+            let player1Score = 0;
+            let player2Score = 0;
+
+            for (const index of pattern) {
+                if (currentBoard[index] === 'X') {
+                    player1Score++;
+                }
+                else if (currentBoard[index] === 'O') {
+                    player2Score++;
+                }
+            }
+
+            if (player1Score === 3 || player2Score === 3) {
+                gameIsOver = true;
+                console.log(currentBoard);
+                console.log(`${activePlayer.name} is the winner!`);
+            }
+        }
+    };
+        // play round
+        // activePlayer.mark กับ index ส่งไป อัพเดตบอร์ด
+        // changeTurn
+    //check winner
 
     const changeTurn = () => {
         activePlayer = activePlayer !== player1 ? player1 : player2; 
-        console.log(activePlayer);
+        
     };
 
 
 
-    return {changeTurn}
+    return {playRound};
 })();
