@@ -63,11 +63,9 @@ const gameController = (function() {
 
     const checkWinner = () => {
         for (const pattern of winPattern) {
-
             if (gameIsOver) {
                 break;
             }
-
             const currentBoard = board.getBoard();
             let player1Score = 0;
             let player2Score = 0;
@@ -83,10 +81,13 @@ const gameController = (function() {
 
             if (player1Score === 3 || player2Score === 3) {
                 gameIsOver = true;
-                console.log(currentBoard);
-                console.log(`${activePlayer.name} is the winner!`);
+                declareWinner(activePlayer.name);
             }
         }
+    };
+
+    const declareWinner = (winner) => {
+        console.log(`The winner is ${winner}`);
     };
         // play round
         // activePlayer.mark กับ index ส่งไป อัพเดตบอร์ด
