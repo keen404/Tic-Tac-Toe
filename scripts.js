@@ -125,17 +125,24 @@ const gameController = (function() {
     const declareWinner = (winner) => {
         console.log(`The winner is ${winner}`);
     };
-        // play round
-        // activePlayer.mark กับ index ส่งไป อัพเดตบอร์ด
-        // changeTurn
-    //check winner
 
     const changeTurn = () => {
         activePlayer = activePlayer !== player1 ? player1 : player2; 
         
     };
-
-
-
     return {playRound};
 })();
+
+const displayDom = (function () {
+    const board = gameBoard;
+    const squaresArr = document.querySelectorAll(".square");
+    
+    const displayArrayToDom = () => {
+        const currentBoard = board.getBoard();
+        squaresArr.forEach((node, index) => {
+            node.textContent = currentBoard[index];
+        })
+    }
+
+    return {displayArrayToDom};
+})(); 
