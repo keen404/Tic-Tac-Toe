@@ -2,18 +2,13 @@ function player(name, mark) {
   return { name, mark };
 }
 
-const gameBoard = (function() {
+const gameBoard = (function() { // Display Board and State Only(ข้อมูลที่เก็บไว้ในobjectนั้น)
     const board = Array(9).fill("");
 
     const getBoard = () => board;
     
     const updateBoard = (index, mark) => {
-        if (board[index] === "") {
             board[index] = mark;
-        }
-        else {
-            console.log("That blcok already taken!");
-        }
     };
 
     const resetBoard = () => {
@@ -22,7 +17,7 @@ const gameBoard = (function() {
     return {getBoard, updateBoard, resetBoard}
 })();
 
-const gameController = (function() {
+const gameController = (function() { // Controll Logic Only
     const board = gameBoard;
     const player1 = player("Player1", "X");
     const player2 = player("Player2", "O");
@@ -33,6 +28,14 @@ const gameController = (function() {
         [0,4,8], [6,4,2] //แนวทะแยง    
     ]
 
+    const isSquareTaken = (index) => {
+        if (board.board[index] !== "") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     const playRound = () => {
         board.updateBoard(1, activePlayer.mark);
@@ -92,9 +95,6 @@ const gameController = (function() {
         if (countEmptySqure <= 0) {
             console.log("It's ties");
         }   
-        else {
-            console.log("It's not ties")
-        }
     }
 
     const checkWinner = () => {
@@ -133,7 +133,7 @@ const gameController = (function() {
     return {playRound};
 })();
 
-const displayDom = (function () {
+const displayDom = (function () { // UI interactive and Display Only
     const board = gameBoard;
     const squaresArr = document.querySelectorAll(".square");
     
