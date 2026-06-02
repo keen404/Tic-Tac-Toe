@@ -28,14 +28,6 @@ const gameController = (function() { // Controll Logic Only
         [0,4,8], [6,4,2] //แนวทะแยง    
     ]
 
-    const isSquareTaken = (index) => {
-        if (board.board[index] !== "") {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     const playRound = () => {
         board.updateBoard(1, activePlayer.mark);
@@ -130,6 +122,16 @@ const gameController = (function() { // Controll Logic Only
         activePlayer = activePlayer !== player1 ? player1 : player2; 
         
     };
+
+    const isSquareTaken = (index) => {
+    if (board.board[index] !== "") {
+        return true;
+    }
+    else {
+        return false;
+    }
+    }
+
     return {playRound};
 })();
 
