@@ -24,14 +24,20 @@ const gameController = (function() { // Controll Logic Only
     const scoreToBeWinner = 3; // 3 Square in a row
     let activePlayer = player1;
     let gameIsOver = false;
+
     const winPattern = [[0,1,2],[3,4,5],[6,7,8], //แนวนอน
         [0,3,6], [1,4,7], [6,7,8], //แนวตั้ง
         [0,4,8], [6,4,2] //แนวทะแยง    
     ]
 
+    const playerMarkOnBoard = (boardIndex) => {
+        if (!isSquareTaken(boardIndex) === true){
+            board.updateBoard(boardIndex, activePlayer.mark)
+        }
+    }
 
     const playRound = () => {
-        board.updateBoard(1, activePlayer.mark);
+        playerMarkOnBoard(1);
         checkTies();
         checkWinner(); //x
         changeTurn();
@@ -125,12 +131,12 @@ const gameController = (function() { // Controll Logic Only
     };
 
     const isSquareTaken = (index) => {
-    if (board.board[index] !== "") {
-        return true;
-    }
-    else {
-        return false;
-    }
+        if (board.getBoard()[index] === "") {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     return {playRound};
