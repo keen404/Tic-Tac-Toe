@@ -21,6 +21,7 @@ const gameController = (function() { // Controll Logic Only
     const board = gameBoard;
     const player1 = player("Player1", "X");
     const player2 = player("Player2", "O");
+    const scoreToBeWinner = 3; // 3 Square in a row
     let activePlayer = player1;
     let gameIsOver = false;
     const winPattern = [[0,1,2],[3,4,5],[6,7,8], //แนวนอน
@@ -107,7 +108,7 @@ const gameController = (function() { // Controll Logic Only
                 }
             }
 
-            if (player1Score === 3 || player2Score === 3) {
+            if (player1Score === scoreToBeWinner || player2Score === scoreToBeWinner) {
                 gameIsOver = true;
                 declareWinner(activePlayer.name);
             }
