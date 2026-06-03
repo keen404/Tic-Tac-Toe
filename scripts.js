@@ -17,7 +17,7 @@ const gameBoard = (function() { // Display Board and State Only(ข้อมู�
     return {getBoard, updateBoard, resetBoard}
 })();
 
-const displayDom = (function () { // UI interactive and Display Only
+const domControl = (function () { // UI interactive and Display Only
     const board = gameBoard;
     const squaresArr = document.querySelectorAll(".square");
     
@@ -28,12 +28,14 @@ const displayDom = (function () { // UI interactive and Display Only
         })
     }
 
+
+
     return {displayArrayToDom};
 })(); 
 
 const gameController = (function() { // Controll Logic Only
     const board = gameBoard;
-    const domControll = displayDom;
+    const domControl = domControl;
     const player1 = player("Player1", "X");
     const player2 = player("Player2", "O");
     const scoreToBeWinner = 3; // 3 Square in a row
@@ -63,7 +65,7 @@ const gameController = (function() { // Controll Logic Only
             }
             else {
                 playerMarkOnBoard(playerChoice);
-                domControll.displayArrayToDom();
+                domControl.displayArrayToDom();
                 checkTies();
                 checkWinner();
                 changeTurn();
