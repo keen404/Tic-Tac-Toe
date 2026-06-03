@@ -92,8 +92,11 @@ const gameController = (function() { // Controll Logic Only
             }
         }
         if (countEmptySqure <= 0) {
-            console.log("It's ties");
-        }   
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     const checkWinner = () => {
