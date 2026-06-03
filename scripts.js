@@ -17,8 +17,23 @@ const gameBoard = (function() { // Display Board and State Only(ข้อมู�
     return {getBoard, updateBoard, resetBoard}
 })();
 
+const displayDom = (function () { // UI interactive and Display Only
+    const board = gameBoard;
+    const squaresArr = document.querySelectorAll(".square");
+    
+    const displayArrayToDom = () => {
+        const currentBoard = board.getBoard();
+        squaresArr.forEach((node, index) => {
+            node.textContent = currentBoard[index];
+        })
+    }
+
+    return {displayArrayToDom};
+})(); 
+
 const gameController = (function() { // Controll Logic Only
     const board = gameBoard;
+    const domControll = displayDom;
     const player1 = player("Player1", "X");
     const player2 = player("Player2", "O");
     const scoreToBeWinner = 3; // 3 Square in a row
@@ -33,54 +48,28 @@ const gameController = (function() { // Controll Logic Only
     const playerMarkOnBoard = (boardIndex) => {
         if (!isSquareTaken(boardIndex) === true){
             board.updateBoard(boardIndex, activePlayer.mark)
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
     const playRound = () => {
-        playerMarkOnBoard(1);
-        checkTies();
-        checkWinner(); //x
-        changeTurn();
+        while (!gameIsOver) {
+            // get User mark
+            if (!playerMarkOnBoard(playerChoice) === true) {
+                continue;
+            }
+            else {
+                playerMarkOnBoard(playerChoice);
+                domControll.displayArrayToDom();
+                checkTies();
+                checkWinner();
+                changeTurn();
+            }
 
-        board.updateBoard(0, activePlayer.mark);
-        checkTies();
-        checkWinner(); //o
-        changeTurn();
-
-        board.updateBoard(3, activePlayer.mark);
-        checkTies();
-        checkWinner();//x
-        changeTurn();
-
-        board.updateBoard(2, activePlayer.mark);
-        checkTies();
-        checkWinner();//o
-        changeTurn();
-
-        board.updateBoard(4, activePlayer.mark);
-        checkTies();
-        checkWinner();//x
-        changeTurn();
-
-        board.updateBoard(5, activePlayer.mark);
-        checkTies();
-        checkWinner()//o
-        changeTurn();
-
-        board.updateBoard(6, activePlayer.mark);
-        checkTies();
-        checkWinner();//x
-        changeTurn();
-
-        board.updateBoard(7, activePlayer.mark);
-        checkTies();
-        checkWinner();//o
-        changeTurn();
-
-        board.updateBoard(8, activePlayer.mark);
-        checkTies();
-        checkWinner();//x
-        changeTurn();
+        }
     }
 
     const checkTies = () => {
@@ -145,16 +134,3 @@ const gameController = (function() { // Controll Logic Only
     return {playRound};
 })();
 
-const displayDom = (function () { // UI interactive and Display Only
-    const board = gameBoard;
-    const squaresArr = document.querySelectorAll(".square");
-    
-    const displayArrayToDom = () => {
-        const currentBoard = board.getBoard();
-        squaresArr.forEach((node, index) => {
-            node.textContent = currentBoard[index];
-        })
-    }
-
-    return {displayArrayToDom};
-})(); 
