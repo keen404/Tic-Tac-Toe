@@ -28,14 +28,21 @@ const domControl = (function () { // UI interactive and Display Only
         })
     }
 
-
+    const interactMarkOnDom = (gameCont) => {
+        let gameBoard = document.querySelector(".square");
+        gameBoard.addEventListener('click', (event) => {
+            let target = event.target;
+            target.textContent = "xxxx";
+        })
+    }
 
     return {displayArrayToDom};
 })(); 
 
+
 const gameController = (function() { // Controll Logic Only
     const board = gameBoard;
-    const domControl = domControl;
+    const dom = domControl;
     const player1 = player("Player1", "X");
     const player2 = player("Player2", "O");
     const scoreToBeWinner = 3; // 3 Square in a row
@@ -65,7 +72,7 @@ const gameController = (function() { // Controll Logic Only
             }
             else {
                 playerMarkOnBoard(playerChoice);
-                domControl.displayArrayToDom();
+                dom.displayArrayToDom();
                 checkTies();
                 checkWinner();
                 changeTurn();
@@ -136,3 +143,6 @@ const gameController = (function() { // Controll Logic Only
     return {playRound};
 })();
 
+const bindEvent = (function () {
+
+})();
