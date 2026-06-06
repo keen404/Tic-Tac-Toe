@@ -28,14 +28,26 @@ const domControl = (function () { // UI interactive and Display Only
         })
     }
 
-    const interactMarkOnDom = (gameCont) => {
-        let gameBoard = document.querySelector(".square");
+     const bindEvent = () => {
+        const gameBoard = document.querySelector(".gameBoard");
         gameBoard.addEventListener('click', (event) => {
             let target = event.target;
-            target.textContent = "xxxx";
+            target.textContent = target.getAttribute("data-index");
         })
     }
 
+    const addCustomAttributesToBoard = () => {
+        const squares = document.querySelectorAll(".square");
+        let index = 0;
+        for (const square of squares) {
+            square.setAttribute("data-index", index);
+            index++;
+        }
+    }
+
+    displayArrayToDom();
+    bindEvent();
+    addCustomAttributesToBoard();
     return {displayArrayToDom};
 })(); 
 
@@ -122,6 +134,13 @@ const gameController = (function() { // Controll Logic Only
         }
     };
 
+    const getActivePlayer = () => {
+        if (activePlayer === undefined) {
+            return null
+        }
+        return activePlayer;
+    }
+
     const declareWinner = (winner) => {
         console.log(`The winner is ${winner}`);
     };
@@ -140,9 +159,5 @@ const gameController = (function() { // Controll Logic Only
         }
     }
 
-    return {playRound};
-})();
-
-const bindEvent = (function () {
-
+    return {playRound, getActivePlayer};
 })();
