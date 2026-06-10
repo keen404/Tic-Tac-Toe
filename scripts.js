@@ -33,7 +33,8 @@ const gameController = (function() { // Controll Logic Only
     ]
 
     const logicToBindButton = (index) => {
-        if (playerMarkOnBoard(index) !== false) {
+        if (!isSquareTaken(index) && gameIsOver === false) {
+            playerMarkOnBoard(index);
             checkTies();
             checkWinner();
             changeTurn();
@@ -41,13 +42,7 @@ const gameController = (function() { // Controll Logic Only
     }
  
     const playerMarkOnBoard = (boardIndex) => {
-        if (isSquareTaken(boardIndex) === true){
-            return false;
-        }
-        else {
             board.updateBoard(boardIndex, activePlayer.mark);
-            return boardIndex;
-        }
     }
     
     const checkTies = () => {
@@ -67,11 +62,11 @@ const gameController = (function() { // Controll Logic Only
     }
 
     const checkWinner = () => {
+        const currentBoard = board.getBoard();
         for (const pattern of winPattern) {
             if (gameIsOver) {
                 break;
             }
-            const currentBoard = board.getBoard();
             let player1Score = 0;
             let player2Score = 0;
 
@@ -87,10 +82,6 @@ const gameController = (function() { // Controll Logic Only
             if (player1Score === scoreToBeWinner || player2Score === scoreToBeWinner) {
                 gameIsOver = true;
                 declareWinner(activePlayer.name);
-                return true;
-            }
-            else {
-                return false;
             }
         }
     };
@@ -120,7 +111,11 @@ const gameController = (function() { // Controll Logic Only
         }
     }
 
-    return {playerMarkOnBoard, checkTies,checkWinner,getActivePlayer, declareWinner, changeTurn,logicToBindButton};
+    const getGameState = () => {
+        return gameIsOver;
+    }
+
+    return {playerMarkOnBoard, checkTies,checkWinner,getActivePlayer, declareWinner, changeTurn,logicToBindButton, getGameState};
 })();
 
 const domControl = (function () { // UI interactive and Display Only
@@ -149,19 +144,13 @@ const domControl = (function () { // UI interactive and Display Only
         const board = boardInstance.getBoard();
 
         gameBoard.addEventListener('click', (event) => {
-            console.log(event.target);
             let target = event.target;
-            let square = target.getAttribute("class")
             if (target.getAttribute("class") === "square"){
-                if(gameControl.checkWinner() === false) {
-                    displayArrayToDom();
-                    gameControl.logicToBindButton(target.getAttribute("data-index"));
-                    displayArrayToDom();
-                }
+                gameControl.logicToBindButton(target.getAttribute("data-index"));
+                displayArrayToDom();
             }
         })
     }
-
 
     addCustomAttributesToBoard();
     bindEvent();
