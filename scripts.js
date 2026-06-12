@@ -26,6 +26,7 @@ const gameController = (function() { // Controll Logic Only
     const scoreToBeWinner = 3; // 3 Square in a row
     let activePlayer = player1;
     let gameIsOver = false;
+    let gameIsStart = false;
     
     const winPattern = [[0,1,2],[3,4,5],[6,7,8], //แนวนอน
         [0,3,6], [1,4,7], [6,7,8], //แนวตั้ง
@@ -33,7 +34,7 @@ const gameController = (function() { // Controll Logic Only
     ]
 
     const logicToBindButton = (index) => {
-        if (!isSquareTaken(index) && gameIsOver === false) {
+        if (!isSquareTaken(index) && gameIsOver === false && gameIsStart  !== false) {
             playerMarkOnBoard(index);
             checkTies();
             checkWinner();
@@ -115,7 +116,25 @@ const gameController = (function() { // Controll Logic Only
         return gameIsOver;
     }
 
-    return {playerMarkOnBoard, checkTies,checkWinner,getActivePlayer, declareWinner, changeTurn,logicToBindButton, getGameState};
+    const restart = () => {
+        activePlayer = player1;
+        board.resetBoard();
+        gameIsOver = false;
+    }
+
+    const start = () => {
+        gameIsStart = true;
+    }
+
+    return {playerMarkOnBoard,
+        checkTies,checkWinner,
+        getActivePlayer,
+        declareWinner,
+        changeTurn,
+        logicToBindButton,
+        getGameState,
+        restart,
+        start};
 })();
 
 const domControl = (function () { // UI interactive and Display Only
@@ -139,7 +158,7 @@ const domControl = (function () { // UI interactive and Display Only
         }
     }
 
-     const bindEvent = () => {
+    const bindGameBoardEvent = () => {
         const gameBoard = document.querySelector(".gameBoard");
         const board = boardInstance.getBoard();
 
@@ -152,7 +171,28 @@ const domControl = (function () { // UI interactive and Display Only
         })
     }
 
+    const bindResetEventBtn = () => {
+        const btns = document.querySelector("#btns");
+
+        btns.addEventListener('click', (event) => {
+            let target = event.target;
+            switch(target.id){
+                case 'start-btn':
+                    gameControl.start();
+                    break;
+
+                case 'restart-btn':
+                    gameControl.restart();
+                    displayArrayToDom();
+                    break;
+            }
+
+        })
+        
+    }
+
     addCustomAttributesToBoard();
-    bindEvent();
+    bindGameBoardEvent();
+    bindResetEventBtn();
     return {};
 })(); 
