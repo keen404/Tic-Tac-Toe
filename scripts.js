@@ -26,6 +26,7 @@ const gameController = (function() { // Controll Logic Only
     const scoreToBeWinner = 3; // 3 Square in a row
     let activePlayer = player1;
     let gameIsOver = false;
+    let gameIsTies = false;
     let gameIsStart = false;
     
     const winPattern = [[0,1,2],[3,4,5],[6,7,8], //แนวนอน
@@ -38,7 +39,10 @@ const gameController = (function() { // Controll Logic Only
             playerMarkOnBoard(index);
             checkTies();
             checkWinner();
-            changeTurn();
+            if (gameIsOver === false && gameIsTies === false) {
+                changeTurn();    
+            }
+            
         }
     }
  
@@ -55,6 +59,7 @@ const gameController = (function() { // Controll Logic Only
             }
         }
         if (countEmptySqure <= 0) {
+            gameIsTies = true;
             return true;
         }
         else {
@@ -112,8 +117,12 @@ const gameController = (function() { // Controll Logic Only
         }
     }
 
-    const getGameState = () => {
+    const getGameIsOver = () => {
         return gameIsOver;
+    }
+
+    const getGameIsTie = () => {
+        return gameIsTies;
     }
 
     const restart = () => {
@@ -143,7 +152,8 @@ const gameController = (function() { // Controll Logic Only
         declareWinner,
         changeTurn,
         logicToBindButton,
-        getGameState,
+        getGameIsOver,
+        getGameIsTie,
         restart,
         start,
         chagePlayerName};
@@ -164,6 +174,18 @@ const domControl = (function () { // UI interactive and Display Only
         })
     }
 
+    const displayGameResult = (reuslt) => {
+        const resultElement = document.querySelector("#result");
+
+        if (reuslt === "ties") {
+            resultElement.textContent = "Game is TIES!";
+        }
+        else if (reuslt === "over") {
+            resultElement.textContent = `The winner is ${gameControl.getActivePlayer().name}`
+        }
+
+    }
+
     const addCustomAttributesToBoard = () => {
         const squares = document.querySelectorAll(".square");
         let index = 0;
@@ -181,6 +203,13 @@ const domControl = (function () { // UI interactive and Display Only
             let target = event.target;
             if (target.getAttribute("class") === "square"){
                 gameControl.logicToBindButton(target.getAttribute("data-index"));
+                console.log(gameControl.getGameIsOver());
+                if (gameControl.getGameIsOver() === true) {
+                    displayGameResult("over");
+                }
+                else if (gameControl.getGameIsTie() === true) {
+                    displayGameResult("ties");
+                }
                 displayArrayToDom();
             }
         })
