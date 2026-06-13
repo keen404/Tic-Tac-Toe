@@ -126,6 +126,17 @@ const gameController = (function() { // Controll Logic Only
         gameIsStart = true;
     }
 
+    const chagePlayerName = (player , newName) => {
+        if (player === 'player1') {
+            player1.name = newName;
+        }
+        else if (player === 'player2')
+        {
+            player2.name = newName;
+        }
+    }
+
+
     return {playerMarkOnBoard,
         checkTies,checkWinner,
         getActivePlayer,
@@ -134,13 +145,17 @@ const gameController = (function() { // Controll Logic Only
         logicToBindButton,
         getGameState,
         restart,
-        start};
+        start,
+        chagePlayerName};
 })();
 
 const domControl = (function () { // UI interactive and Display Only
     const boardInstance = gameBoard;
     const gameControl = gameController;
     const squaresArr = document.querySelectorAll(".square");
+    let elementIdDisplayName = "";
+    let player = ""
+
 
     const displayArrayToDom = () => {
         const currentBoard = boardInstance.getBoard();
@@ -186,13 +201,50 @@ const domControl = (function () { // UI interactive and Display Only
                     displayArrayToDom();
                     break;
             }
-
         })
+    }
+
+
+    const changeName = () => {
+        const changeNameBtn = document.querySelector("#change-btn");
+        const newName = document.querySelector("#name");
         
+        const dialog = document.querySelector("#playerName");
+
+
+        //
+        changeNameBtn.addEventListener('click', function (event) {
+            const displayElement = document.querySelector(`#${elementIdDisplayName}`);
+            event.preventDefault();
+            displayElement.textContent = newName.value;
+            gameControl.chagePlayerName(player, newName.value);
+            dialog.close();
+        });
+    }
+
+    const openChangeNameDialog = () => {
+        const btns = document.querySelector("#display-player");
+        const dialog = document.querySelector("#playerName");
+        btns.addEventListener('click', (event) => {
+            let target = event.target;
+            switch(target.id) { 
+                case 'btn-name1':
+                    changeName();
+                    elementIdDisplayName = "display-name1";
+                    player = "player1"
+                    break;
+                case 'btn-name2':
+                    changeName();
+                    elementIdDisplayName = "display-name2";
+                    player = "player2"
+                    break;
+            }
+        }) 
     }
 
     addCustomAttributesToBoard();
     bindGameBoardEvent();
     bindResetEventBtn();
+    openChangeNameDialog();
     return {};
 })(); 

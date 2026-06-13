@@ -11,16 +11,24 @@
 
 <body>
 
-     <div class="display-player">
-        <p class="player1"></p>
-        <button>
+     <div id="display-player">
+        <p id="display-name1" class="player1">Player1</p>
+        <button command="show-modal" commandfor="playerName" id="btn-name1">
             Change name
         </button>
 
-        <p class="player2"></p>
-        <button>
+        <p id="display-name2" class="player2">Player2</p>
+        <button command="show-modal" commandfor="playerName" id="btn-name2">
             Change name
         </button>
+
+        <dialog id="playerName">
+            <label for="name">New name :</label>
+            <input type="text" id="name"> 
+            <button type="submit" id="change-btn">Change</button>
+            <button commandfor="playerName" command="close">Close</button>
+        </dialog>
+
      </div>
     
     <div class="gameState">
