@@ -1,18 +1,52 @@
+/* Todo:
+Stylin Button
+Color Content
+Typograhpy
+*/
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: 1px solid red;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin-top: 5%;
+    
 }
 
 .square {
     border: 1px solid blue;
-    padding: 40px;
+    display: grid;
+    justify-content: center;
+    align-content: center;  
+    width: 170px;
+    height: 170px;
 }
 
 .gameBoard {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    
+    grid-template-columns: repeat(3, max-content);
+    grid-template-rows: repeat(3, max-content);   
     gap: 0;
+    padding: 1% 37%;
+}
+
+
+
+#display-player {
+    display: grid;
+    grid-template-columns: 70% 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 0 40%;
+}
+
+#btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    padding: 0 40%;
 }
