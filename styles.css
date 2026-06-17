@@ -1,14 +1,28 @@
-/* Todo:
-Stylin Button
-Color Content
-Typograhpy
-*/
+/* Todo:*/
+/*Stylin Button*/
+/*Color Content*/
+/*Typograhpy*/
+#start-btn,
+#restart-btn {
+    padding: 1rem;
+    font-size: 0.9em;;
+}
+
+#btn-name1, #btn-name2 {
+    padding: 1rem;
+    font-size: 0.9em;
+}
+
+#display-name1, #display-name2 {
+    justify-content: center;
+    align-content: center;  
+}
 
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border: 1px solid red;
+
 }
 
 body {
@@ -19,7 +33,7 @@ body {
 }
 
 .square {
-    border: 1px solid blue;
+    border: 1px solid black;
     display: grid;
     justify-content: center;
     align-content: center;  
